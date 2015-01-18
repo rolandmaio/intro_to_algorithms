@@ -1,0 +1,41 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\title{Problems Chapter 9}
+\author{Roland Maio}
+\date{\today}
+
+\begin{document}
+\maketitle
+\section*{Exercise 9.2-1}
+Show that RANDOMIZED-SELECT never makes a recursive call to a 0-length array.
+\vspace*{\baselineskip}
+\\
+Assume, to the contrary, that RANDOMIZED-SELECT does make a recursive call to a 0-length array. Then, this recursive call must occur on line 8 or 9. If it occurs on line 8, then it must be the case that $q=p$ after the call to RANDOMIZED-PARTITION on line 3. In which case, $k=1$ and $i\neq 1$, since otherwise we would have returned $A[q]$ on line 6. But since, $k=1\neq i$, it cannot be the case that $i<k$ and so the recursive call to RANDOMIZED-SELEECT on line 8 is not executed. But this contradicts our assumption. Otherwise, the recursive call to RANDOMIZED-SELECT to a 0-length array must occur on line 9. In which case we must have $q=r$. By the similar reasoning as above, however, if $q=r$, then we must have $i<k$ and so the recursive call on line 9 cannot possibly execute. Therefore, RANDOMIZED-SELECT does not make a recursive call to a 0-length array.
+
+\section*{Exercise 9.2-2}
+Argue that the indicator random variable $X_k$ and the value $T(\textit{max}(k-1,n-k))$ are independent.
+\vspace*{\baselineskip}
+\\
+Consider the the expression $\textit{max}(k-1, n-k)$ which is defined as
+\begin{equation}
+\textit{max}(k-1,n-k)=\begin{cases}
+	k-1 & \text{if } k > \lceil n/2\rceil\\
+	n-k & \text{if } k \leq \lceil n/2\rceil
+	\end{cases}
+\end{equation}
+and let $Y$ be the random variable that is the value of $\textit{max}(k-1,n-k)$. Observe, that $P\lbrace Y=k-1\rbrace = P\lbrace k > \lceil n/2 \rceil\rbrace = \frac{n-\lceil n/2\rceil}{n}$. This probability is independent of the value of $k$. And since $P\lbrace Y=n-k\rbrace = 1 - P\lbrace Y=k-1\rbrace$ we conclude that the random variable $Y$ is independent of the value of $k$ for all $k$. And since $X_k$ is entirely dependent on this quantity, it follows that $Y$ is independent of $X_k$ and finally that the random variables $X_k$ and the value $T(\textit{max}(k-1,n-k))$ are independent.
+
+\section*{Exercise 9.2-3}
+Write an iterative version of RANDOMIZED-SELECT.
+\vspace*{\baselineskip}
+\\
+Cows...
+
+\end{document}

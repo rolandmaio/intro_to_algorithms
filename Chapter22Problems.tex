@@ -1,0 +1,38 @@
+\documentclass[10pt,a4paper]{article}
+\usepackage[latin1]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+
+\title{Problems Chapter 22}
+\author{Roland Maio}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{22.4-2}
+Give a linear-time algorithm that takes as input a directed acyclic graph $G=\left( V,E\right)$ and two vertices $s$ and $t$, and returns the number of simple paths from $s$ to $t$ is $G$. For example, the directed acyclic graph of Figure 22.8 contains exactly four simple paths from vertex $p$ to vertex $v$: $pov$, $poryv$, $posrvy$, and $psryv$. (Your algorithm needs only to count the simple paths, not list them.) \par
+
+\begin{algorithm}
+\caption{My algorithm}\label{word}
+\begin{algorithmic}[1]
+\Procedure{countSimplePaths(G,s,t)}{}
+\State $\textbf{topological-sort}\textit{\left( G,s,t\right)}$
+\State $\textit{Initialize a new stack K}$
+\State $\textit{Push s onto the stack}$
+\State $counter \gets 0$
+\WHILE{$K$ is nonempty}
+\State{Pop the next vertex $u$ off of the stack}
+\State{for each outgoing edge $\left( u,v\right)$:
+\State{increment the counter}
+\State{else if $t.f < v.f$ # That is v is topologically less than t}
+\State{push v onto the stack}
+\ENDWHILE
+\State{return counter}
+\end{algorithmic}
+\end{algorithm}
+
+\end{document}
