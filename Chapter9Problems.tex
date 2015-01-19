@@ -106,20 +106,36 @@ Let $X[1..n]$ and $Y[1..n]$ be two arrays, each containing $n$ numbers already i
 \vspace*{\baselineskip}
 \\
 \begin{algorithm}
-\caption{My algorithm}\label{word}
+\caption{Algorithm for finding the $i$th order statistic of all elements in arrays $X$ and $Y$, assuming that $X$ and $Y$ are already sorted. If $A$ is an array, then $A.n$ is the number of elements in the array, $m_A$ is the median of the elements in array $A$ and $o_A(m_A)$ is the associated order statistic of the median of $A$ in $A$.}\label{word}
 \begin{algorithmic}
-\Function{SELECTUNION}{X, Y, i}
-	\State $m_x=$ median of $X$
-	\State $m_y$ = median of $Y$
-	\If{$m_x<m_y$}
-		\If{$o_X(m_x) + o_Y(m_y) < i$}
-			\State{$q=$ SELECTUNION($X[m_x+1..X.n]$, $Y$, $i-o(m_x)$)}
+\Function{SELECTMOD}{X, Y, i}
+	\If{$X.n = 0$} \Return $Y[i]$ \EndIf
+	\If{$Y.n = 0$} \Return $X[i]$ \EndIf
+	\State $m_X=$ median of $X$
+	\State $m_Y$ = median of $Y$
+	\If{$m_X < m_Y$}
+		\If{$i < o_X(m_x) + o_Y(m_y)$}
+			\State{$q=$ SELECTMOD($X$, $Y[1..o_Y(m_Y)-1]$, $i$)}
 		\Else
-			\State{$q=$ SELECTUNION(}
+			\State{$q=$ SELECTMOD($X[o_X(m_X)+1..X.n]$, $Y$, $i-o_X(m_X)$)}
+		\EndIf
+	\Else
+		\If{$i < o_X(m_X) + o_Y(m_Y)$}
+			\State{$q=$ SELECTMOD($X[1..o_X(m_X)-1]$, $Y$, $i$)}
+		\Else
+			\State{$q=$ SELECTMOD($X$, $Y[o_Y(m_Y)+1..Y.n]$, $i-o_Y(M_)$)}
 		\EndIf
 	\EndIf
+	\Return $q$
 \EndFunction
 \end{algorithmic}
 \end{algorithm}
+The big idea, is that on each recursive call, we can eliminate half of the elements of one of the remaining arrays from consideration by comparing the medians of the arrays. If the median of $X$ is less than the median of $Y$, then it follows that all the elements of $X$ less than or equal to its median have order statistics in the aggregated array less than the sum of the orders of the medians. Therefore, if the order statistic of the median of the aggregated array is greater than this sum, we may discard these elements in $X$ and repeat with fewer elements. This will take at most $\text{lg}(X.n)+\text{lg}(Y.n)$ recursive calls with constant work done on each. In the case where $X.n=Y.n=n$, therefore, the algorithm runs in time $O(\text{lg}(n))$.
+
+\section*{Exercise 9.3-9}
+Professor Olay is consulting for an oil company, whcih is planning a large pipeline running east to west through an oil field of $n$ wells. The company wants to connect a spur pipeline from each well directly to the main pipeline along a shortest route (either north or south), as shown in Figure 9.2. Given the $x$- and $y$-coordinates of the wells, how should the professor pick the optimal location of the main pipeline, which would be the one that minimizes the total length of the spurs? Show how to determine the optimal location in linear time.
+\vspace*{\baselineskip}
+\\
+Find the median oil well $y$-coordinate. If $n$ is odd, run the main-pipeline along that $y$-coordinate. If $n$ is odd, run the main-pipeline along the $y$-coordinate that is halfway between the $y$-coordinates of the lower and upper medians. Since we can find all the median $y$-coordinates in linear time, and the rest of this solution requires constant time, the overall solution running time is linear.
 
 \end{document}
