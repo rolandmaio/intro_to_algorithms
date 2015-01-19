@@ -84,5 +84,42 @@ and the solution of this recurrence, by the master theorem, is $T(n) = O(n)$.
 
 \section*{Exercise 9.3-6}
 The $k$th \textbf{\textit{quantiles}} of an $n$-element set are the $k-1$ order statistics that divide the sorted set into $k$ equal-sized sets (to within 1). Give an $O(n\text{ lg } k)$-time algorithm to list the $k$th quantiles of a set.
+\vspace*{\baselineskip}
+\\
+Let $m_k$ be the median of the elements in the $k$th quantile. We can determine the order statistic with respect to $n$ of $m_k$ in constant time. This is simply $o_n(m_k)=\lceil\frac{k-1}{2}\rceil\lceil\frac{n}{k}\rceil$. We can use this as the basis of the desired algorithm, call it KQUANTILE. Call SELECT on the input array $A$ with $i=o_n(m_k)$. Store the element that is returned, and then recursively call KQUANTILE on the subarray $A[1..o_n(m_k)-1]$ with a new $k=\lceil\frac{k-1}{2}\rceil$. And recursively call KQUANTILE on the subarray $A[o_n(m_k)+1..n]$ with a new $k$ defined as:
+\begin{align*}
+	k=\begin{cases}
+		\lceil\frac{k-1}{2}\rceil & \text{ if } k \equiv 0 \mod 2 \\
+		\lceil\frac{k-1}{2}\rceil + 1 & \text{ if } k \equiv 1 \mod 2
+	\end{cases}
+\end{align*}
+Each recursive call of KQUANTILE will work on the entire array and so run in time $O(n)$. But each level of recursion will find 2 times as many of the elements in the $k$th quantile as the last. Consequently, there will be at most $O(\text{lg }k)$ recursive calls. Hence the running time of KQUANTILE is $O(n\text{ lg }k)$.
+
+\section*{Exercise 9.3-7}
+Describe an $O(n)$-time algorithm that, given a set $S$ of $n$ distinct numbers and a positive integer $k\leq n$, determines the $k$ numbers in $S$ that are closest to the median of $S$.
+\vspace*{\baselineskip}
+\\
+Let $m$ be the order statistic of the median. Use SELECT to find the median and the $m-k$ and $m+k$ order statistics of $S$. Do a linear scan over these elements computing the absolute value of their difference with the median. Initialize pointers to the $m+1$ and $m-1$ order statistics. Compare them, take the lesser, and move its pointer to the next element. Repeat until the $k$ closest elements have been found. The $m$, $m+k$th and $m-k$th order statistics can be found in linear time. The absolute value of the difference between the elements and the median may also be found in time that is $O(n)$, since $k=O(n)$, and the final comparison and selection of elements can also be done in time $O(n)$. Therefore the algorithm runs in $O(n)$-time.
+
+\section*{Exercise 9.3-8}
+Let $X[1..n]$ and $Y[1..n]$ be two arrays, each containing $n$ numbers already in sorted order. Give an $O(\text{lg }n)$-time algorithm to find the median of all $2n$ elements in arrays $X$ and $Y$.
+\vspace*{\baselineskip}
+\\
+\begin{algorithm}
+\caption{My algorithm}\label{word}
+\begin{algorithmic}
+\Function{SELECTUNION}{X, Y, i}
+	\State $m_x=$ median of $X$
+	\State $m_y$ = median of $Y$
+	\If{$m_x<m_y$}
+		\If{$o_X(m_x) + o_Y(m_y) < i$}
+			\State{$q=$ SELECTUNION($X[m_x+1..X.n]$, $Y$, $i-o(m_x)$)}
+		\Else
+			\State{$q=$ SELECTUNION(}
+		\EndIf
+	\EndIf
+\EndFunction
+\end{algorithmic}
+\end{algorithm}
 
 \end{document}
