@@ -138,4 +138,54 @@ Professor Olay is consulting for an oil company, whcih is planning a large pipel
 \\
 Find the median oil well $y$-coordinate. If $n$ is odd, run the main-pipeline along that $y$-coordinate. If $n$ is odd, run the main-pipeline along the $y$-coordinate that is halfway between the $y$-coordinates of the lower and upper medians. Since we can find all the median $y$-coordinates in linear time, and the rest of this solution requires constant time, the overall solution running time is linear.
 
+\section*{Problem 9-1 Largest i numbers in sorted order}
+Given a set of $n$ numbers, we wish to find the $i$ largest in sorted order using a comparison-based algorithm. Find the algorithm that implements each of the following methods with the best asymptotic worst-case runnign time, and analyze the running times of the algorithms in terms of $n$ and $i$.
+\vspace*{\baselineskip}
+\\
+\textbf{a.} Sort the numbers, and list the $i$ largest.
+\vspace*{\baselineskip}
+\\
+Use heapsort, but instead of extracting the maximum element $n$ times we would need only extract it $i$ times. The running time would therefore be $O(n\text{ lg }n)$ since $i=O(n)$.
+\vspace*{\baselineskip}
+\\
+\textbf{b.} Build a max-priority queue from the numbers, and call EXTRACT-MAX $i$ times.
+\vspace*{\baselineskip}
+\\
+Same as above.
+\vspace*{\baselineskip}
+\\
+\textbf{c.} Use an order-statistic algorithm to find the $i$th largest number, partition around that number, and sort the $i$ largest numbers.
+\vspace*{\baselineskip}
+\\
+Use SELECT to find the $i$th largest number and partition around it in $O(n)$ time. Then use heapsort or mergesort on the $n-i$ largest numbers. This will run in time $O(n + i\text{lg}(i))$.
+
+\section*{9-2 Weighted median}
+For $n$ distinct elements $x_1,x_2,...,x_n$ with positive weights $w_1,w_2,...,w_n$ such that $\Sigma_{n=1}^{n}w_i=1$, the \textbf{\textit{weighted (lower) median}} is the elements $x_k$ satisfying
+\begin{displaymath}
+	\displaystyle\sum_{x_i<x_k} w_i<\frac{1}{2}
+\end{displaymath}
+and
+\begin{displaymath}
+	\displaystyle\sum_{x_i>x_k} w_i\leq\frac{1}{2}
+\end{displaymath}
+For example, if the elements are 0.1,0.35,0.05,0.1,0.15,0.05,0.2 and each element equals its weight (that is, $w_i=x_i$ for $i=1,2,...,7$), then the median is 0.1, but the weighted median is 0.2.
+\vspace*{\baselineskip}
+\\
+\textbf{a.} Argue that the median of $x_1,x_2,...x_n$ is the weighted median of the $x_i$ with weights $w_i=1/n$ for $i=1,2,...,n$.
+\vspace*{\baselineskip}
+\\
+Let $x_m$ be the median of the $x_i$. If $n$ is even, then there are $n/2 - 1$ elements less than $x_m$ and so $\Sigma_{x_i<x_m} w_i = \frac{n/2 - 1}{n} < \frac{1}{2}$ and there are $n/2$ elements greater than $x_m$ and so $\Sigma_{x_i > x_m} w_i = \frac{n/2}{n} = \frac{1}{2}$. Otherwise, $n$ is odd, in which case there are fewer than $n/2$ elements less than, or greater than $x_m$ and so $\Sigma_{x_i<x_m} w_i < \frac{n/2}{n} < \frac{1}{2} \geq \Sigma_{x_i>x_m} w_i$ and so we conclude that the median $x_m$ is the weighted median.
+\vspace*{\baselineskip}
+\\
+\textbf{b.} Show how to compute the weighted median of $n$ elements in $O(n\text{lg}n)$ worst-case time using sorting.
+\vspace*{\baselineskip}
+\\
+Use mergesort or heapsort to sort the elements on their weights. Starting with the least weighted element, sum the weights until the sum is greater than or equal to $1/2$. The element whose weight was added last is the weighted median. The sorting will run in time $O(n\text{lg}n)$ and the accumulation will take time $O(n)$, hence the overall running time is $O(n\text{lg}n)$.
+\vspace*{\baselineskip}
+\\
+\textbf{c.} Show how to compute the weighted median in $\Theta (n)$ worst-case time using a linear-time median algorithm such as SELECT from section 9.3.
+\vspace*{\baselineskip}
+\\
+Cows...
+
 \end{document}
